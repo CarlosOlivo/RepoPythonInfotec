@@ -1,33 +1,34 @@
 /* General styles */
 body {
-    /* Tipografía serif moderna */
-    font-family: 'Playfair Display', serif;
-    /* Fondo estático de alta calidad con overlay sutil */
-    background-color: #f2f6fb; /* fallback */
-    /* Use a web-safe path that Flask serves: /static/... */
-    background-image: url('/static/bg-highres.svg');
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    position: relative;
+    font-family: 'Roboto', sans-serif;
+    background-color: #0a0a0a;
+    color: #ffffff;
     min-height: 100vh;
-    color: #222;
+    position: relative;
+    overflow-x: hidden;
 }
 
-/* Overlay sutil sobre la imagen */
+#particle-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
 body::before {
     content: '';
     position: fixed;
     inset: 0;
-    background: linear-gradient(180deg, rgba(20,30,48,0.45) 0%, rgba(100,115,140,0.22) 50%, rgba(240,246,250,0.06) 100%);
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.8) 0%, rgba(20, 0, 40, 0.6) 50%, rgba(0, 0, 20, 0.8) 100%);
     pointer-events: none;
     z-index: 0;
 }
 
-
 body.dark-mode {
-    color: #eee;
+    background-color: #0a0a0a;
+    color: #ffffff;
 }
 
 .container {
@@ -36,6 +37,8 @@ body.dark-mode {
     align-items: center;
     min-height: 100vh;
     perspective: 1000px;
+    position: relative;
+    z-index: 1;
 }
 
 /* Theme toggle */
@@ -96,46 +99,45 @@ input:checked+.slider:before {
     border-radius: 50%;
 }
 
-/* Login form */
-/* Glassmorphism + gradiente */
-.login-container {
-    background: rgba(255, 255, 255, 0.9);
+/* Login form with neomorphism */
+.login-container, .register-container {
+    background: linear-gradient(145deg, #0f0f0f, #1a1a1a);
     padding: 2.2rem 2rem;
-    border-radius: 18px;
-    border: 1px solid rgba(34, 47, 72, 0.06);
-    box-shadow: 0 12px 30px rgba(15, 30, 60, 0.18);
+    border-radius: 20px;
+    border: none;
+    box-shadow: 
+        20px 20px 40px #0a0a0a,
+        -20px -20px 40px #1a1a1a,
+        inset 0 0 0 1px rgba(255, 255, 255, 0.1);
     transform-style: preserve-3d;
-    transition: transform 0.45s ease, opacity 0.4s ease;
-    animation: formSlideIn 0.85s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    transition: transform 0.5s ease, opacity 0.4s ease;
     position: relative;
     overflow: hidden;
-    z-index: 2; /* Above overlay */
+    z-index: 2;
+    backdrop-filter: blur(10px);
 }
-.login-container::before {
+
+.login-container::before, .register-container::before {
     content: '';
     position: absolute;
     inset: 0;
     z-index: 0;
-    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(20,30,48,0.02));
+    background: linear-gradient(145deg, rgba(0, 212, 255, 0.1), rgba(138, 43, 226, 0.1));
     pointer-events: none;
 }
 
-.login-container:hover {
-    transform: translateZ(20px);
-}
-
-body.dark-mode .login-container {
-    background: rgba(30, 30, 30, 0.25);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37), 0 1.5px 8px 0 rgba(255,255,255,0.08);
+.login-container:hover, .register-container:hover {
+    transform: translateZ(20px) rotateX(5deg);
 }
 
 h3 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Roboto', sans-serif;
     text-align: center;
     margin-bottom: 1.4rem;
-    font-weight: 600;
-    color: #16324a;
+    font-weight: 500;
+    color: #00d4ff;
     font-size: 1.6rem;
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
 }
 
 .input-group {
@@ -148,38 +150,39 @@ h3 {
     left: 14px;
     top: 50%;
     transform: translateY(-50%);
-    color: #7b8a99;
+    color: #00d4ff;
     font-size: 1.1rem;
-    transition: color 0.28s ease, transform 0.36s cubic-bezier(0.2,0.8,0.2,1);
+    transition: color 0.3s ease, transform 0.5s ease;
+    z-index: 1;
 }
+
 .input-group input:focus ~ i,
 .input-group input:hover ~ i {
-    color: #2b6cb0; /* azul sobrio al enfocar */
-    transform: translateY(-50%) scale(1.06);
+    color: #8a2be2;
+    transform: translateY(-50%) scale(1.2);
 }
 
 .input-group input {
     width: 100%;
     padding: 0.9rem 1rem 0.9rem 3rem;
-    border: 1px solid rgba(34, 47, 72, 0.06);
-    border-radius: 10px;
-    background: #fff;
-    color: #16324a;
+    border: none;
+    border-radius: 15px;
+    background: linear-gradient(145deg, #0f0f0f, #1a1a1a);
+    color: #ffffff;
     font-size: 0.98rem;
-    transition: box-shadow 0.22s ease, border-color 0.22s ease;
-    box-shadow: 0 6px 18px rgba(16,36,59,0.06);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    box-shadow: 
+        inset 5px 5px 10px #0a0a0a,
+        inset -5px -5px 10px #1a1a1a;
+    outline: none;
 }
-
-body.dark-mode .input-group input {
-    background: rgba(0, 0, 0, 0.35);
-    color: #eee;
-}
-
 
 .input-group input:focus {
-    outline: none;
-    border-color: rgba(43,108,176,0.95);
-    box-shadow: 0 6px 20px rgba(43,108,176,0.08);
+    box-shadow: 
+        inset 10px 10px 20px #0a0a0a,
+        inset -10px -10px 20px #1a1a1a,
+        0 0 20px rgba(0, 212, 255, 0.5);
+    transform: scale(1.02);
 }
 
 
@@ -188,87 +191,107 @@ body.dark-mode .input-group input {
     width: 100%;
     padding: 0.95rem;
     border: none;
-    border-radius: 10px;
-    background: linear-gradient(90deg, #2b6cb0 0%, #1e4e7a 100%);
-    color: #fff;
-    font-weight: 600;
+    border-radius: 15px;
+    background: linear-gradient(145deg, #00d4ff, #8a2be2);
+    color: #ffffff;
+    font-weight: 500;
     cursor: pointer;
-    transition: transform 0.26s ease, box-shadow 0.26s ease;
-    box-shadow: 0 10px 24px rgba(22,50,74,0.12);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 
+        10px 10px 20px #0a0a0a,
+        -10px -10px 20px #1a1a1a;
     font-size: 1rem;
     letter-spacing: 0.4px;
     position: relative;
     overflow: hidden;
+    transform-style: preserve-3d;
 }
 
-.btn-primary::after {
-    /* efecto brillo sutil al pasar cursor */
+.btn-primary::before {
     content: '';
     position: absolute;
-    top: -50%;
-    left: -30%;
-    width: 60%;
-    height: 220%;
-    background: linear-gradient(120deg, rgba(255,255,255,0.0) 0%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.0) 100%);
-    transform: rotate(25deg) translateX(-120%);
-    transition: transform 0.6s cubic-bezier(0.2,0.9,0.2,1);
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
 }
 
-.btn-primary:hover::after {
-    transform: rotate(25deg) translateX(90%);
+.btn-primary:hover::before {
+    left: 100%;
 }
 
 .btn-primary:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 18px 40px rgba(30,60,96,0.12);
+    transform: translateY(-5px) rotateX(15deg);
+    box-shadow: 
+        15px 15px 30px #0a0a0a,
+        -15px -15px 30px #1a1a1a,
+        0 0 30px rgba(0, 212, 255, 0.5);
 }
 
-/* Spinner */
+/* Futuristic Spinner */
 .spinner-wrapper {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.8);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 9999;
-    display: none;
+    backdrop-filter: blur(5px);
 }
 
 .spinner {
-    width: 56px;
-    height: 56px;
-    border: 6px solid #f3f3f3;
-    border-top: 6px solid #ff69b4;
-    border-bottom: 6px solid #663399;
+    width: 60px;
+    height: 60px;
+    border: 4px solid rgba(0, 212, 255, 0.3);
+    border-top: 4px solid #00d4ff;
+    border-right: 4px solid #8a2be2;
     border-radius: 50%;
-    animation: spin 0.8s cubic-bezier(0.4,0,0.2,1) infinite;
-    box-shadow: 0 0 16px 2px #ff69b4, 0 0 8px 1px #663399;
+    animation: spin 1s linear infinite;
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.5), 0 0 40px rgba(138, 43, 226, 0.3);
+    position: relative;
+}
+
+.spinner::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    width: 68px;
+    height: 68px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    animation: spin-reverse 1.5s linear infinite;
 }
 
 @keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes spin-reverse {
+    0% { transform: rotate(360deg); }
+    100% { transform: rotate(0deg); }
 }
 
 /* Toast notification */
-/* Toast notification visual impact */
 .toast-notification {
     position: fixed;
     bottom: 18px;
     right: 18px;
-    background: rgba(22,50,74,0.96);
-    color: #f7fbff;
+    background: linear-gradient(145deg, #0f0f0f, #1a1a1a);
+    color: #ffffff;
     padding: 12px 18px;
-    border-radius: 10px;
-    box-shadow: 0 8px 20px rgba(10,20,36,0.35);
+    border-radius: 15px;
+    box-shadow: 
+        10px 10px 20px #0a0a0a,
+        -10px -10px 20px #1a1a1a,
+        0 0 20px rgba(0, 212, 255, 0.3);
     z-index: 10000;
     opacity: 0;
     transform: translateY(14px) scale(0.99);
@@ -280,6 +303,7 @@ body.dark-mode .input-group input {
     display: flex;
     align-items: center;
     gap: 10px;
+    border: 1px solid rgba(0, 212, 255, 0.2);
 }
 
 .toast-notification.show {
@@ -288,12 +312,48 @@ body.dark-mode .input-group input {
 }
 
 .toast-notification i {
-    color: #ffdca8;
+    color: #00d4ff;
     font-size: 1.2rem;
 }
 .toast-content {
     display: flex;
     flex-direction: column;
+}
+
+.switch-form {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #cccccc;
+}
+
+.switch-form a {
+    color: #00d4ff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.switch-form a:hover {
+    color: #8a2be2;
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+}
+
+.switch-form {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #cccccc;
+}
+
+.switch-form a {
+    color: #00d4ff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.switch-form a:hover {
+    color: #8a2be2;
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
 }
 
 .sr-only { /* accesibilidad */
@@ -304,70 +364,47 @@ body.dark-mode .input-group input {
     white-space: nowrap;
 }
 
-/* Animations */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(40px) scale(0.98);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
+.animated-icon.fa-envelope:hover {
+    animation: wiggle 0.5s ease-in-out;
 }
 
-@keyframes glassFadeIn {
-    from {
-        opacity: 0;
-        transform: scale(0.95) translateY(40px);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-    }
+.animated-icon.fa-lock:hover {
+    animation: rotate 0.5s ease-in-out;
 }
 
-/* Nueva animación: formulario entra desde arriba con fade */
-@keyframes formSlideIn {
-    0% { opacity: 0; transform: translateY(-36px) scale(0.985); }
-    60% { opacity: 1; transform: translateY(6px) scale(1.003); }
-    100% { opacity: 1; transform: translateY(0) scale(1); }
+.animated-icon.fa-user:hover {
+    animation: bounce 0.5s ease-in-out;
 }
 
-@keyframes iconPop {
-    0% {
-        opacity: 0;
-        transform: translateY(-30px) scale(0.7);
-    }
-    60% {
-        opacity: 1;
-        transform: translateY(-50%) scale(1.15) rotate(-8deg);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(-50%) scale(1) rotate(0deg);
-    }
+@keyframes wiggle {
+    0%, 100% { transform: translateY(-50%) rotate(0deg); }
+    25% { transform: translateY(-50%) rotate(-5deg); }
+    75% { transform: translateY(-50%) rotate(5deg); }
 }
 
-@keyframes pageFadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+@keyframes rotate {
+    0% { transform: translateY(-50%) rotate(0deg); }
+    100% { transform: translateY(-50%) rotate(360deg); }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(-50%) scale(1); }
+    50% { transform: translateY(-50%) scale(1.2); }
 }
 
 /* Responsive adjustments */
 @media (max-width: 600px) {
-    .login-container {
+    .login-container, .register-container {
         width: calc(100% - 40px);
         padding: 1.6rem 1.2rem;
         border-radius: 14px;
         margin: 24px;
+        touch-action: manipulation;
     }
     .theme-switch-wrapper { top: 12px; right: 12px; }
     h3 { font-size: 1.3rem; }
     .input-group input { font-size: 0.95rem; padding-left: 2.8rem; }
+    .btn-primary { font-size: 0.95rem; padding: 0.8rem; }
     .toast-notification { right: 12px; left: 12px; bottom: 12px; }
+    .switch-form { font-size: 0.85rem; }
 }

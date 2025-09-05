@@ -2,12 +2,12 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Iniciar sesión</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Futurista - Versión Estática</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="C:\Users\cuell\OneDrive\Escritorio\RepoPythonInfotec\static\style.css">
+    <link rel="stylesheet" href="static/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Modern sans-serif font -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -22,7 +22,7 @@
     <div class="container">
         <div class="login-container" id="login-form-container">
             <h3>Bienvenido</h3>
-            <form id="login-form" method="POST" action="{{ url_for('do_login') }}">
+            <form id="login-form" method="POST" action="javascript:void(0);">
                 <div class="input-group">
                     <input type="email" name="email" placeholder="Correo electrónico" required>
                     <i class="fas fa-envelope animated-icon"></i>
@@ -38,7 +38,7 @@
 
         <div class="register-container" id="register-form-container" style="display: none;">
             <h3>Regístrate</h3>
-            <form id="register-form" method="POST" action="{{ url_for('do_register') }}">
+            <form id="register-form" method="POST" action="javascript:void(0);">
                 <div class="input-group">
                     <input type="text" name="name" placeholder="Nombre" required>
                     <i class="fas fa-user animated-icon"></i>
@@ -224,25 +224,38 @@
             }, 300);
         });
 
-        // Form submission spinner
+        // Form submission simulation
         const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
         const spinner = document.getElementById('spinner');
-        loginForm.addEventListener('submit', function() {
-            spinner.style.display = 'flex';
-        });
-
-        // Toast notifications
         const toast = document.getElementById('toast');
         const toastMsg = document.getElementById('toast-msg');
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                toastMsg.textContent = "{{ messages[0] }}";
-                toast.classList.add('show');
-                setTimeout(() => {
-                    toast.classList.remove('show');
-                }, 3000);
-            {% endif %}
-        {% endwith %}
+
+        function showToast(message) {
+            toastMsg.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            spinner.style.display = 'flex';
+            setTimeout(() => {
+                spinner.style.display = 'none';
+                showToast("¡Login simulado exitoso! En una app real, esto redirigiría a la página principal.");
+            }, 2000);
+        });
+
+        registerForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            spinner.style.display = 'flex';
+            setTimeout(() => {
+                spinner.style.display = 'none';
+                showToast("¡Registro simulado exitoso! En una app real, esto guardaría el usuario.");
+            }, 2000);
+        });
     </script>
 </body>
 </html>

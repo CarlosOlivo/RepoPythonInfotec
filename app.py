@@ -60,11 +60,21 @@ def welcome():
         return render_template('welcome.html', username=session['username'])
     return redirect(url_for('login'))
 
-@app.route('/logout')
-def logout():
-    username = session.get('username', 'Usuario')
-    session.clear()
-    flash(f"¡Hasta luego {username}!")
+@app.route('/register', methods=['POST'])
+def do_register():
+    name = request.form['name']
+    email = request.form['email']
+    password = request.form['password']
+
+    if email in USERS:
+        flash("El correo electrónico ya está registrado.")
+        return redirect(url_for('login'))
+    
+    USERS[email] = {
+        'password': password,
+        'name': name
+    }
+    flash("Registro exitoso. Ahora puedes iniciar sesión.")
     return redirect(url_for('login'))
 
 if __name__ == '__main__':
